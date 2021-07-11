@@ -20,12 +20,12 @@ module.exports = merge(common, {
       // "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
     },
     // CORS 에러
-    proxy: {
-      '/api': {
-        target: 'http://frankly.kro.kr:8081',
-        changeOrigin: true,
-        pathRewrite: { '^/api': '' },
-      }
-    },
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://frankly.kro.kr:8081',
+    //     changeOrigin: true,
+    //     pathRewrite: { '^/api': '' },
+    //   }
+    // },
   },
 });
