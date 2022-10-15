@@ -3,7 +3,6 @@
 
 <mapper namespace="com.frankly.restapi.mapper.UserMapper">
 
-
     <resultMap type="UserDTO" id = "userResultMap">
         <id column="userID" property="userID"/>
         <result column="email" property="email"/>
@@ -13,7 +12,6 @@
         <result column="district" property="district"/>
         <result column="sex" property="sex"/>
         <result column="userAuth" property="userAuth"/>
-
         <result column="contact" property="contact"/>
     </resultMap>
 
@@ -22,38 +20,22 @@
         ORDER BY userID asc
     </select>
 
+    <select id="findUserByEmail" resultType="UserDTO">
+        SELECT email, name, password, userAuth
+        FROM frankly.User
+        WHERE email = #{email}
+    </select>
+
+    <insert id="save" parameterType="UserDTO">
+        INSERT INTO frankly.User (name, password)
+        VALUES (#{name}, #{password})
+    </insert>
+
+
     <select id="readUser" resultMap="userResultMap">
         SELECT * FROM frankly.User
         WHERE userID = #{userID}
     </select>
-
-    <select id="getUserByEmail" resultMap="userResultMap">
-        SELECT email,password,auth FROM frankly.User
-        WHERE email = #{email}
-
-    </select>
-
-    <insert id="createUser" parameterType="UserDTO">
-        INSERT INTO frankly.User(email, name, password, district, sex, auth, contact)
-        VALUES(#{email},
-               #{name},
-               #{password},
-               #{district},
-               #{sex},
-               #{userAuth},
-               #{contact})
-    </insert>
-
-
-    <select id="loginUser" resultMap="userResultMap">
-        SELECT * FROM frankly.User
-        WHERE userID = #{userID}
-    </select>
-
-    <delete id="deleteUser" parameterType="Long">
-        DELETE FROM frankly.User
-        WHERE userID = #{userID}
-    </delete>
 
     <update id="updateUser" parameterType="UserDTO">
         UPDATE frankly.User
@@ -64,4 +46,11 @@
             contact = #{contact}
         WHERE userID = #{userID}
     </update>
+
+    <delete id="deleteUser" parameterType="UserDTO">
+        DELETE FROM frankly.User
+        WHERE userID = #{userID}
+    </delete>
+
+
 </mapper>

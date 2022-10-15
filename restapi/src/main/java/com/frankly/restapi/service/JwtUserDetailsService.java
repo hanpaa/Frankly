@@ -3,9 +3,7 @@ package com.frankly.restapi.service;
 import com.frankly.restapi.domain.UserDTO;
 import com.frankly.restapi.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -44,7 +42,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     }
 
-    public UserDTO getUserByEmail(String userEmail) throws Exception {
-        return userMapper.getUserByEmail(userEmail);
+    public UserDTO getUserByEmail(String email) throws Exception {
+        return userMapper.findUserByEmail(email);
     }
 }
