@@ -35,6 +35,8 @@ import SejongBoard from '../views/Board/region/SejongBoard.vue'
 import PoliticianPropertyDetail from "@/views/Politician/PoliticianPropertyDetail";
 import EditData from "@/views/Admin/EditData";
 import PoliticianNewsKeyword from "@/views/Politician/PoliticianNewsKeyword";
+import PoliticianSearchView from "@/views/Politician/PoliticianSearchView";
+import PoliticianStatistics from "@/views/Politician/PoliticianStatistics";
 //import EditData from "@/views/Admin/EditData"
 
 const routes = [
@@ -214,6 +216,7 @@ const routes = [
     component: PoliticianNewsKeyword,
     props: true
   },
+  {
     path: '/Search',
     name: 'Search',
     component: PoliticianSearchView
