@@ -3,6 +3,7 @@ package com.frankly.restapi.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -30,14 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Autowired
+    @Autowired @Lazy
     private UserDetailsService jwtUserDetailsService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configureGlobal( AuthenticationManagerBuilder auth) throws Exception{
         /**
          * Authenticationmanager가 어디서 load되는지 알 수 있도록 설정\
          * jwtUserDetailsService에서 사용하겠다!
@@ -69,8 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**", "/api/users/signup", "/api/users/login", "/api/infos/**", "/api/boards/**","/api/politician/**",
                         "/api/billLaw/**", "/api/schedule/**", "/api/attendance/**", "/api/vote/**", "/api/news/**", "/api/property/**", "/api/replys/**").permitAll()
 
-                .antMatchers("/").hasRole("ROLE_USER")
-                .antMatchers("/admin").hasRole("ROLE_ADMIN")
+                .antMatchers("/").hasRole("USER")
+                .antMatchers("/admin").hasRole("ADMIN")
 
                 //개발용 설정
 //                                .authorizeRequests().antMatchers("/api/**", "/api/users/user", "/api/auth/signin", "/**").permitAll()

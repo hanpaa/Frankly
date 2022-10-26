@@ -1,9 +1,6 @@
 package com.frankly.restapi.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.io.Serializable;
@@ -12,6 +9,7 @@ import java.io.Serializable;
 //JSON parse 위해 default 생성자 필요
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class JwtRequest implements Serializable {
     private static final long serialVersionUID = 5926468583005150707L;
 

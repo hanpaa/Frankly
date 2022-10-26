@@ -23,8 +23,8 @@ public class UserService implements UserServiceInterface {
     private final UserMapper userMapper;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
-    private final JwtRequest jwtRequest;
-    private final JwtResponse jwtResponse;
+    private JwtRequest jwtRequest;
+    private JwtResponse jwtResponse;
     private final JwtTokenUtil jwtTokenUtil;
     private JwtUserDetailsService userDetailsService;
 
