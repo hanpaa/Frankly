@@ -1,6 +1,5 @@
 package com.frankly.restapi.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -60,11 +59,11 @@ public class UserDTO implements UserDetails {
     //GrantedAuthority 구현
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> userAuths = new HashSet<>();
-        for(String auth : this.userAuth.split(",")){
-            userAuths.add(new SimpleGrantedAuthority(auth));
-        }
-        return userAuths;
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
+        if (email.equals("admin@gmail.com"))
+            grantedAuthorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+        return grantedAuthorities;
     }
 
     @Override

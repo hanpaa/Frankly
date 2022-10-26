@@ -25,9 +25,9 @@ public class UserAuthProvider implements AuthenticationProvider {
             throw new InternalAuthenticationServiceException("auth is null");
         }
 
-        String userName = authentication.getName();
+        String email = authentication.getName();
         String password = authentication.getCredentials().toString();
-        UserDetails DBUser = jwtUserDetailsService.loadUserByUsername(userName);
+        UserDetails DBUser = jwtUserDetailsService.loadUserByUsername(email);
 
         if(DBUser == null )
             throw new InternalAuthenticationServiceException("UserDetails return null");

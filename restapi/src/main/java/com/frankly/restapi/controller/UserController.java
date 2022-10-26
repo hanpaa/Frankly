@@ -2,6 +2,7 @@ package com.frankly.restapi.controller;
 
 
 import com.frankly.restapi.domain.UserDTO;
+import com.frankly.restapi.service.UserAuthProvider;
 import com.frankly.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @CrossOrigin(origins = "http://localhost:8080")
@@ -21,6 +20,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserAuthProvider userAuthProvider;
 
     @GetMapping("/{userID}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("userID") int userID)
@@ -39,7 +39,7 @@ public class UserController {
 
         userService.loginUser(userDTO);
 
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class JwtUserDetailsService implements UserDetailsService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     @Override
@@ -30,14 +32,12 @@ public class JwtUserDetailsService implements UserDetailsService {
             log.info("login User : " + email);
             if (user.getEmail().equals(email)) {
 
-                return new User(user.getEmail(),
-                            user.getPassword(),
-                            user.getAuthorities());
+                return new User(user.getEmail(), user.getPassword(), user.getAuthorities());
             } else{
-                throw new UsernameNotFoundException("유저 이름을 찾을 수 없습니다. 유저이름 : " + email);
+                throw new UsernameNotFoundException("유저 이메일을 찾을 수 없습니다. 유저 이메일 : " + email);
             }
         } catch (Exception e){
-            throw new UsernameNotFoundException("유저 이름을 찾을 수 없습니다. 유저이름 : " + email);
+            throw new UsernameNotFoundException("유저 이메일을 찾을 수 없습니다. 유저 이메일 : " + email);
         }
 
     }

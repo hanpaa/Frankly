@@ -36,12 +36,12 @@
         SELECT * FROM frankly.Politician
         WHERE politicianID = #{politicianID}
     </select>
-
+<!--
     <select id="searchPolitician" resultMap="politicianResultMap">
         SELECT * FROM frankly.Politician
         WHERE politicianName LIKE concat('%', #{searchName}, '%')
         ORDER BY politicianID ASC
-    </select>
+    </select> -->
 
     <insert id="createPolitician" parameterType="PoliticianDTO">
         INSERT INTO frankly.Politician
