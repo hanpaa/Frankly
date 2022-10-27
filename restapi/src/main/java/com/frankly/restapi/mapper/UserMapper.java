@@ -1,5 +1,6 @@
 package com.frankly.restapi.mapper;
 
+import com.frankly.restapi.domain.JwtRequest;
 import com.frankly.restapi.domain.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -28,7 +29,4 @@ public interface UserMapper {
 
     public void deleteUser(int userID) throws Exception;
 
-    public void selectAllUser(UserDTO userDTO) throws Exception;
-
-    public void loginUser(UserDTO userDTO) throws Exception;
 }

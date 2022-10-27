@@ -14,8 +14,6 @@ public interface UserServiceInterface {
 
     public void deleteUser(int userID) throws Exception;
 
-
     public List<UserDTO> userList() throws Exception;
 
-    public void loginUser(UserDTO userDTO) throws Exception;
 }
