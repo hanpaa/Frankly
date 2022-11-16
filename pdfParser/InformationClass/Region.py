@@ -31,3 +31,10 @@ class Region:
     def insert(self, cursor):
         sql = "INSERT INTO Region VALUES('" + str(self.regionID) +"','" + self.regionName + "')"
         cursor.execute(sql)
+
+    def select(self, cursor, input):
+        sql = "SELECT * FROM Region " + \
+              "WHERE regionName = %s"
+        cursor.execute(sql,input)
+
+        return cursor.fetchall()

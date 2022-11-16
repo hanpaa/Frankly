@@ -44,7 +44,7 @@ class PropertyPDFParser:
 
         for fileName in fileList:
             txtName = txtDir+ "/" + fileName.replace(".pdf","") + ".txt"
-
+            print(fileName + " start\n")
             f = open(txtName,'w', encoding="UTF-8")
             with pdfplumber.open(pdfDir+"/"+fileName) as pdf:
 

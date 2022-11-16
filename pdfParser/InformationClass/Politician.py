@@ -236,7 +236,23 @@ class Politician:
             traceback.print_exc()
             return None
 
+    def selectName(self, cursor, input):
+        try:
 
+            sql = "SELECT politicianID, regionID FROM Politician " + \
+                  "WHERE politicianName = %s"
+            cursor.execute(sql,input)
+
+            return cursor.fetchall()
+        except Exception as e:
+            traceback.print_exc()
+            return None
+
+    def selectNameWithRegion(self, cursor, input):
+        sql = "SELECT politicianID, regionID FROM Politician " + \
+              "WHERE politicianName = %s AND regionID = %s"
+        cursor.execute(sql,(input[0],input[1]))
+        return cursor.fetchall()
 
     def selectALL(self, cursor):
         sql = "SELECT * FROM Politician AS p, Region AS r WHERE p.regionID = r.regionID"

@@ -108,11 +108,11 @@ class ParserMain:
                         except Exception as e:
                             print(e)
 
-    def parseAttendance(self):
+    def parseAttendance(self, pdfDir):
         con, cur = self.dbConnect()
         # pdfDir = 'E:\work\Frankly\pdfParser\InformationClass\Json'
-        pdfDir = 'D:\code\Frankly\pdfParser\InformationClass/attendance'
-        pdfDir = ''
+        # pdfDir = 'D:\code\Frankly\pdfParser\InformationClass/attendance'
+        # pdfDir = ''
         fileList = os.listdir(pdfDir)
         for fileName in fileList:
             if(fileName.endswith(".txt")):
@@ -160,8 +160,11 @@ class ParserMain:
                                 newSchedule.conferenceTitle = fileName.split()[0].replace("(", "국회(").replace("임", "임시회")
                                 newSchedule.generation = conference.search(cur, newSchedule.conferenceTitle, "conferenceTitle")[1]
                                 newSchedule.conferenceSession = index
-                                newSchedule.insert(cur)
-                                con.commit()
+                                try:
+                                    newSchedule.insert(cur)
+                                    con.commit()
+                                except Exception as e:
+                                    break;
                                 print(newSchedule.conferenceDate + "삽입")
                                 result = conference.search(cur, fixedDate, "conferenceDate")
                                 conferenceID = result[0]
@@ -195,18 +198,24 @@ class ParserMain:
                             continue
                         # 국회의원 ID 검색
                         ppName = token[0].split("(")
+                        if(ppName == "강기윤"):
+                            print("stub")
                         if(len(ppName) == 2 and ppName[1] == "비)"):
                             result = pp.selectNameID(cursor= cur,\
                                                      input = ppName[0],\
                                                      column="142")
                         else:
-                            if(ppName[0] == "이수진" or ppName[0] == "김병욱"):
+                            # if(ppName[0] == "이수진" or ppName[0] == "김병욱"):
+                            result = pp.selectName(cursor= cur,\
+                                                    input= ppName[0])
+                            if(len(result) > 1 and len(result) == 0):
                                 input = [ppName[0], token[1]]
                                 result = pp.selectNameID(cursor= cur,\
                                                 input= input,\
                                                 column= "politicianName")
 
                         if(len(result) != 0):
+
                             politicianID = result[0][0]
                             if(len(result) == 2):
                                 for politicianSelectResult in result:
@@ -216,7 +225,7 @@ class ParserMain:
 
 
                         else:
-                            print(token[0] + " 사퇴")
+                            print(token[0] + " 사퇴 또는 검색오류.")
                             continue
 
                         attendanceList = []
@@ -326,7 +335,7 @@ class ParserMain:
         # json 데이터 이상.. 2002년 데이터도 들어가있음 걸러내야함.
         params = {'Key': api.secretKey, 'Type': 'json',\
                   'pIndex': 1, 'pSize' : 92, 'UNIT_CD' : '100021'}
-        response = requests.get(api.scheduleURL, params=params)
+        response = requests.get(api.URL, params=params)
         contents = response.text
 
         scheduleJson = json.loads(contents)
@@ -422,8 +431,8 @@ class ParserMain:
 
     def dbConnect(self):
         # dbinfoDir = "E:\work\Frankly\pdfParser\InformationClass/dbinfo.info"
-        # dbinfoDir = "D:\code\Frankly\pdfParser\InformationClass/dbinfo.info"
-        dbinfoDir = "/home/hanpaa/IdeaProjects/Frankly/pdfParser/dbinfo.info"
+        dbinfoDir = "D:\code\Frankly\pdfParser\InformationClass/dbinfo.info"
+        # dbinfoDir = "/home/hanpaa/IdeaProjects/Frankly/pdfParser/dbinfo.info"
         with open(dbinfoDir, encoding="UTF8") as dbInfo:
 
 

@@ -13,6 +13,7 @@ from PropertyClasses.PropertyExtract.Property import Property
 from PropertyClasses.PropertyExtract.PropertyChange import PropertyChange
 from PropertyClasses.PropertyExtract.PropertyList import PropertyList
 from InformationClass.Politician import Politician
+from InformationClass.Region import Region
 
 import json
 import sys
@@ -27,10 +28,10 @@ class PropertyExtract:
 
 
 
-    def jsonParse(self):
+    def jsonParse(self, jsonDir):
 
         # jsonDir = 'E:\work\Frankly\pdfParser\PropertyClasses\Parsers\moneyTXT'
-        jsonDir = 'D:\code\Frankly\pdfParser\PropertyClasses\moneyTXT'
+        # jsonDir = 'D:\code\Frankly\pdfParser\PropertyClasses\moneyTXT'
         fileList = os.listdir(jsonDir)
         p = Politician(index=None)
 
@@ -59,13 +60,27 @@ class PropertyExtract:
         pl = PropertyList()
         pp = Property()
         p = Politician()
+        region = Region(None)
         for politician in parsedJson:
-            result = p.selectNameID(cursor= cur, value= politician["국회의원 이름"], column="politicianName")
-            if(result != None):
-                politicianID = result[0]
+            politicianName = politician["국회의원 이름"].split("(")
+            if(len(politicianName) == 1):
+                result = p.selectName(cursor= cur, input= politicianName)
+                if(len(result) != 0):
+                    politicianID = result[0][0]
+
+                else:
+                    print(politician["국회의원 이름"] + "사퇴")
+                    continue
             else:
-                print(politician["국회의원 이름"] + "사퇴")
-                continue
+                regionNames = politicianName[1].replace(")", "")
+                regionID = region.select(cur, regionNames)[0][0]
+                input = [politicianName[0], str(regionID)]
+                result = p.selectNameWithRegion(cursor=cur, input=input)
+                if(len(result) != 0):
+                    politicianID = result[0]
+                else:
+                    print(politician["국회의원 이름"] + "사퇴")
+                    continue
 
             for change in politician["재산변동"]:
                 property = Property()
@@ -110,15 +125,28 @@ class PropertyExtract:
         pl = PropertyList()
         pp = Property()
         p = Politician()
+        region = Region(None)
         for politician in parsedJson:
 
+            politicianName = politician["국회의원 이름"].split("(")
+            if(len(politicianName) == 1):
+                result = p.selectName(cursor= cur, input= politicianName)
+                if(len(result) != 0):
+                    politicianID = result[0][0]
 
-            result = p.selectNameID(cursor= cur, value= politician["국회의원 이름"], column="politicianName")
-            if(result != None):
-                politicianID = result[0]
+                else:
+                    print(politician["국회의원 이름"] + "사퇴")
+                    continue
             else:
-                print(politician["국회의원 이름"] + "사퇴")
-                continue
+                regionNames = politicianName[1].replace(")", "")
+                regionID = region.select(cur, regionNames)[0][0]
+                input = [politicianName[0], str(regionID)]
+                result = p.selectNameWithRegion(cursor=cur, input=input)
+                if(len(result) != 0):
+                    politicianID = result[0]
+                else:
+                    print(politician["국회의원 이름"] + "사퇴")
+                    continue
 
 
             for change in politician["재산변동"]:
@@ -228,8 +256,8 @@ class PropertyExtract:
 
     def dbConnect(self):
         # dbinfoDir = "E:\work\Frankly\pdfParser\InformationClass/dbinfo.info"
-        # dbinfoDir = "D:\code\Frankly\pdfParser\InformationClass/dbinfo.info"
-        dbinfoDir = "/home/hanpaa/IdeaProjects/Frankly/pdfParser/dbinfo.info"
+        dbinfoDir = "D:\code\Frankly\pdfParser\InformationClass/dbinfo.info"
+        # dbinfoDir = "/home/hanpaa/IdeaProjects/Frankly/pdfParser/dbinfo.info"
         with open(dbinfoDir, encoding="UTF8") as dbInfo:
 
             IP  = dbInfo.readline().split(" ")[1].replace("\n", "")
