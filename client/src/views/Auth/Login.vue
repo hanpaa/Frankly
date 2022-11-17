@@ -48,7 +48,6 @@
           <label for="remember-email"></label>
           이메일 저장
         </div>
-        <a href="#">비밀번호 찾기</a>
       </div>
 
       <button class="sign-up-form__button" @click.prevent="confirm()">
@@ -60,7 +59,6 @@
 
 <script>
 import { login, findById } from "@/js/user.js";
-import { validateEmail, validatePassword } from "@/commons/validation.js"
 
 export default {
   name: "Login",
