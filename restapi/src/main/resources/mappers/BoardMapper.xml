@@ -67,6 +67,8 @@
         FROM frankly.Board B LEFT JOIN frankly.Reply R
                                      ON B.boardID = R.boardID
         WHERE B.userID = #{userID}
+        GROUP BY B.boardID
+
     </select>
 
     <!-- 내가 쓴 댓글의 글 -->
@@ -75,6 +77,7 @@
         FROM frankly.Board B LEFT JOIN frankly.Reply R
                                        ON B.boardID = R.boardID
         WHERE R.userID = #{userID}
+        GROUP BY R.replyID
     </select>
 
     <!-- 게시물 총 갯수 -->
