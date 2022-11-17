@@ -18,12 +18,12 @@
             variant="link"
             toggle-class="text-decoration-none"
             no-caret
-            ><template #button-content>
-              <img src="@/assets/icon/Other2.svg" alt="더보기" />
-              <span class="visually-hidden"></span>
-            </template>
+          ><template #button-content>
+            <img src="@/assets/icon/Other2.svg" alt="더보기" />
+            <span class="visually-hidden"></span>
+          </template>
             <b-dropdown-item @click="updateBoard(DetailData.boardID)"
-              >수정</b-dropdown-item
+            >수정</b-dropdown-item
             >
             <b-dropdown-item @click="deleteBoard">삭제</b-dropdown-item>
           </b-dropdown></a
@@ -54,7 +54,7 @@
     </div>
 
     <!--내용-->
-    <article class="post-content">
+    <article class="post-content" style="white-space:pre-wrap">
       <p>{{ DetailData.content }}</p>
     </article>
 
@@ -83,8 +83,8 @@
                 {{ this.userStore.userInfo.username }}
               </h6>
               <span class="comments__info__date">{{
-                elapsedText(reply.replyRegDate)
-              }}</span>
+                  elapsedText(reply.replyRegDate)
+                }}</span>
             </div>
 
             <div class="comments__info-right">
@@ -94,13 +94,13 @@
                   variant="link"
                   toggle-class="text-decoration-none"
                   no-caret
-                  ><template #button-content>
-                    <img src="@/assets/icon/Other1.svg" alt="더보기" />
-                    <span class="visually-hidden"></span>
-                  </template>
+                ><template #button-content>
+                  <img src="@/assets/icon/Other1.svg" alt="더보기" />
+                  <span class="visually-hidden"></span>
+                </template>
                   <b-dropdown-item
                     @click="deleteReply(reply.replyID, reply.userID)"
-                    >삭제</b-dropdown-item
+                  >삭제</b-dropdown-item
                   >
                 </b-dropdown>
               </button>
@@ -331,29 +331,29 @@ export default {
           userID: this.userStore.userID,
           boardID: boardID,
         })
-        .then((response) => {
-          if (response.status === 200) {
-            console.log("좋아요 취소 성공");
-            this.likedFlag = !(this.likedFlag)
-            // 해당 게시글의 좋아요 개수 1 감소시킨 걸로 수정 (put)
-            this.DetailData.marked -= 1;
-            this.cntMarked = this.DetailData.marked;
-            axios
-              .put(`/api/boards/update/${boardID}`, {
-                title: this.DetailData.title,
-                content: this.DetailData.content,
-                marked: this.cntMarked,
-              })
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          } else {
-            console.log("좋아요 취소 실패");
-          }
-        });
+          .then((response) => {
+            if (response.status === 200) {
+              console.log("좋아요 취소 성공");
+              this.likedFlag = !(this.likedFlag)
+              // 해당 게시글의 좋아요 개수 1 감소시킨 걸로 수정 (put)
+              this.DetailData.marked -= 1;
+              this.cntMarked = this.DetailData.marked;
+              axios
+                .put(`/api/boards/update/${boardID}`, {
+                  title: this.DetailData.title,
+                  content: this.DetailData.content,
+                  marked: this.cntMarked,
+                })
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              console.log("좋아요 취소 실패");
+            }
+          });
 
 
 
