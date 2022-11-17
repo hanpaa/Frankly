@@ -1,42 +1,42 @@
 <template>
   <div class="wrap">
     <Header />
-
+    <HomeSlider/>
     <!--슬라이더-->
     <div id="slider">
-      <input type="radio" name="slider" id="slide1" checked />
-      <input type="radio" name="slider" id="slide2" />
-      <input type="radio" name="slider" id="slide3" />
+<!--      <input type="radio" name="slider" id="slide1" checked />-->
+<!--      <input type="radio" name="slider" id="slide2" />-->
+<!--      <input type="radio" name="slider" id="slide3" />-->
 
-      <div id="slides">
-        <div id="overflow">
-          <div class="inner">
-            <div class="slide slide_1">
-              <div class="slide-content"></div>
-            </div>
+<!--      <div id="slides">-->
+<!--        <div id="overflow">-->
+<!--          <div class="inner">-->
+<!--            <div class="slide slide_1">-->
+<!--              <div class="slide-content"></div>-->
+<!--            </div>-->
 
-            <div class="slide slide_2">
-              <div class="slide-content"></div>
-            </div>
+<!--            <div class="slide slide_2">-->
+<!--              <div class="slide-content"></div>-->
+<!--            </div>-->
 
-            <div class="slide slide_3">
-              <div class="slide-content"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+<!--            <div class="slide slide_3">-->
+<!--              <div class="slide-content"></div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div id="controls">
-        <label for="slide1"></label>
-        <label for="slide2"></label>
-        <label for="slide3"></label>
-      </div>
+<!--      <div id="controls">-->
+<!--        <label for="slide1"></label>-->
+<!--        <label for="slide2"></label>-->
+<!--        <label for="slide3"></label>-->
+<!--      </div>-->
 
-      <div id="bullets">
-        <label for="label1"></label>
-        <label for="label2"></label>
-        <label for="label3"></label>
-      </div>
+<!--      <div id="bullets">-->
+<!--        <label for="label1"></label>-->
+<!--        <label for="label2"></label>-->
+<!--        <label for="label3"></label>-->
+<!--      </div>-->
     </div>
 
     <!--국회의원 검색-->
@@ -84,6 +84,7 @@ import Header from "@/components/Header.vue";
 import ImageSlider from "@/components/ImageSlider.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import axios from "axios";
+import HomeSlider from "@/views/HomeSlider";
 
 export default {
   name: "Home",
@@ -92,6 +93,7 @@ export default {
     Header: Header,
     ImageSlider: ImageSlider,
     SearchBar: SearchBar,
+    HomeSlider:HomeSlider
   },
   mounted() {
     this.getTrendPoliticianList();
@@ -195,15 +197,11 @@ export default {
   color: #fff;
 }
 #slides .slide_1 {
-  background-image: url("@/assets/home-slide.png");
+  background-image: url("@/assets/slide1.png");
   background-size: cover;
 }
 #slides .slide_2 {
-  background-image: url("@/assets/home-slide.png");
-  background-size: cover;
-}
-#slides .slide_3 {
-  background-image: url("@/assets/home-slide.png");
+  background-image: url("@/assets/slide2.png");
   background-size: cover;
 }
 .slide-content {
