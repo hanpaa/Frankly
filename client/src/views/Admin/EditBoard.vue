@@ -52,8 +52,8 @@ export default {
       selected: null,
       options: [
         { value: '1', text: '게시판 ID' },
-        { value: '2', text: '작성자' },
-        // { value: '3', text: '표결정보' },
+        { value: '2', text: 'USER ID' },
+        // { value: '3', text: '전체게시글' },
         // { value: '4', text: '본희의정보' },
         // { value: '5', text: '출석정보' }
       ]
@@ -62,20 +62,58 @@ export default {
   methods: {
     getInfo: function (){
       this.infos = []
-      axios.get('/api/boards/'+ this.inputValue )
-        .then(response => {
-          if( response.data instanceof Array){
-            this.infos = response.data
-          }else(
-            this.infos.push(response.data)
-          )
+      if(this.selected === '1'){
+        axios.get('/api/boards/'+ this.inputValue )
+          .then(response => {
+            if( response.data instanceof Array){
+              this.infos = response.data
+            }else(
+              this.infos.push(response.data)
+            )
 
-          console.log(this.infos)
+            console.log(this.infos)
+          })
+          .catch(e => {
+            console.log('error:', e)
+            console.log(this.inputValue + "request")
+          })
+      }
+      else if(this.selected === '2'){
+        axios.post('/api/boards/boardlist/search',{
+            "searchType" : "userID",
+            "keyword" : this.inputValue
         })
-        .catch(e => {
-          console.log('error:', e)
-          console.log(this.inputValue + "request")
-        })
+          .then(response => {
+            if( response.data instanceof Array){
+              this.infos = response.data
+            }else(
+              this.infos.push(response.data)
+            )
+
+            console.log(this.infos)
+          })
+          .catch(e => {
+            console.log('error:', e)
+            console.log(this.inputValue + "request")
+          })
+      }
+      // else if(this.selected === '3'){
+      //   axios.get('/api/boards/boardlist/all' )
+      //     .then(response => {
+      //       if( response.data instanceof Array){
+      //         this.infos = response.data
+      //       }else(
+      //         this.infos.push(response.data)
+      //       )
+      //
+      //       console.log(this.infos)
+      //     })
+      //     .catch(e => {
+      //       console.log('error:', e)
+      //       console.log(this.inputValue + "request")
+      //     })
+      // }
+
     },
     //수정
     doChange: function(userinfo) {

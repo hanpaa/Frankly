@@ -106,7 +106,7 @@ public class BoardController {
     }
 
     //게시판 검색
-    @GetMapping("/boardlist/search")
+    @PostMapping("/boardlist/search")
     public ResponseEntity<List<BoardDTO>> searchBoard(@RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType,
                                                       @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) throws Exception{
 
