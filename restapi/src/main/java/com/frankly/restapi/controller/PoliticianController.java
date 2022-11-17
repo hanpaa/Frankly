@@ -75,7 +75,7 @@ public class PoliticianController {
     }
 
     //북마크 취소
-    @DeleteMapping("/delete/bookmark")
+    @PostMapping("/delete/bookmark")
     public ResponseEntity<BookmarkDTO> deleteBookmark(@Validated @RequestBody BookmarkDTO bookmarkDTO) throws Exception {
 
         bookmarkService.deleteBookmark(bookmarkDTO);

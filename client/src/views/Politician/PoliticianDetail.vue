@@ -231,7 +231,7 @@ export default {
           });
       } else {
         axios
-          .delete(`/api/politician/delete/bookmark`, {
+          .post(`/api/politician/delete/bookmark`, {
             userID: this.userStore.userID,
             politicianID: politicianID,
           })
