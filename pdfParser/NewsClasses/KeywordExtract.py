@@ -1,3 +1,5 @@
+import traceback
+
 import gensim
 import pymysql
 
@@ -27,10 +29,9 @@ import kss
 
 class KeywordExtract:
 
-    def keywordExtract(self, date):
-
-
-        f = open("stop.txt", 'r')
+    def keywordExtract(self, date, dir):
+        freeze_support()
+        f = open(dir+"/NewsClasses/stop.txt", 'r')
         stopWord = f.read().split(',')
         f.close()
         con, cur = self.dbConnect()
@@ -140,4 +141,5 @@ class KeywordExtract:
 #     freeze_support()
 #     key = KeywordExtract()
 #
-#     key.keywordExtract("2022-10-01")
+#     key.keywordExtract("2022-10-01", dir="D:/code/Frankly/pdfParser")
+freeze_support()

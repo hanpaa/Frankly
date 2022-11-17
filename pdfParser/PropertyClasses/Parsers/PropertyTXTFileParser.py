@@ -36,6 +36,6 @@ class PropertyTXTFileParser:
 
             except Exception as e:
                 traceback.print_exc()
-                print(filename)
-                exit(99)
+                print(filename + "파일 에러")
+                return
 

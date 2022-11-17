@@ -274,7 +274,8 @@ class News:
                             total = content['total']
                             break
                     except:
-                        exit(-1)
+                        print("API가 응답하지 않습니다.")
+                        return
 
                 """
                 content
@@ -346,8 +347,8 @@ class News:
                     # 'https://n.news.naver.com/mnews/article/088/0000774104?sid=100'
                     # xpath] /html/body/div/div[2]/div/div[1]/div[1]/div[2]
                     # selector] newsct_article
-                    print(politicain.politicianName + " 뉴스 삽입완료")
-                    break
+                    print(" 뉴스가 이미 삽입완료되었습니다. 입력 날짜를 확인해주세요.")
+                    raise("뉴스기사 중복 Exception")
                 con.commit()
 
                     # 'https://n.news.naver.com/mnews/article/088/0000774104?sid=100'

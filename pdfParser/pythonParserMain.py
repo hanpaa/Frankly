@@ -5,15 +5,17 @@ from PropertyClasses.Parsers.propertyPDFParser import PropertyPDFParser
 from PropertyClasses.Parsers.PropertyTXTFileParser import PropertyTXTFileParser
 from PropertyClasses.PropertyExtract.PropertyExtract import PropertyExtract
 from PropertyClasses.vote.vote import Vote
+from multiprocessing import freeze_support
 import os
 
 state = True
+freeze_support()
 
 while(state):
     print("원하는 작업을 고르세요 번호만 입력하세요.")
     print("1 : 의회 일정 정보 수집")
     print("2 : 정치인 출석 정보 수집")
-    print("3 : 정치인 뉴스 기사 및 키워드 수집")
+    print("3 : 정치인 뉴스 기사 수집")
     # print("4 : 정치인 뉴스 키워드 수집")
     print("4 : 정치인 재산 정보 수집")
     print("5 : 정치인 표결 정보 수집")
@@ -44,6 +46,7 @@ while(state):
         print("정치인 출석정보 완료")
     elif(select == "3"):
         news = News()
+        keywordExtract = KeywordExtract()
         print("연 월 일을 입력하면 해당 날짜 이후의 뉴스데이터를 수집합니다. 예) 2020 10 01 순으로 입력")
         print("년 : ")
         year = input()
@@ -53,9 +56,13 @@ while(state):
         day = input()
         targetDate = year + "-" + month + "-" + day
         print(targetDate)
-        news.getNewsFromAPI(targetDate=targetDate)
+        try:
+            news.getNewsFromAPI(targetDate=targetDate)
+        except:
+            continue
         news.newsCrawling()
-        KeywordExtract.keywordExtract(date=targetDate)
+
+        # keywordExtract.keywordExtract(date=targetDate, dir=dir)
     # elif(select == "4"):
     #     print("뉴스 키워드 추출 뉴스 데이터 수집과 같은 월로 ")
         print("뉴스데이터 완료")

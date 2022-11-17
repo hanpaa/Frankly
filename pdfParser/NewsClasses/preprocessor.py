@@ -49,6 +49,7 @@ class Preprocessor:
         return bigram_model, bigram_document
 
     def preprocess(self,news, stopWord):
+
         nouns = self.noun_extractor(news, stopWord)
 
         bigram_model, bigram_document = self.construct_bigram_doc(nouns)
