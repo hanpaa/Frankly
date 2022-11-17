@@ -53,7 +53,7 @@ export default {
       options: [
         { value: '1', text: '게시판 ID' },
         { value: '2', text: 'USER ID' },
-        // { value: '3', text: '전체게시글' },
+        { value: '3', text: '전체게시글' },
         // { value: '4', text: '본희의정보' },
         // { value: '5', text: '출석정보' }
       ]
@@ -79,9 +79,26 @@ export default {
           })
       }
       else if(this.selected === '2'){
+        axios.get('/api/boards/user/'+ this.inputValue)
+          .then(response => {
+            if( response.data instanceof Array){
+              this.infos = response.data
+            }else(
+              this.infos.push(response.data)
+            )
+
+            console.log(this.infos)
+          })
+          .catch(e => {
+            console.log('error:', e)
+            console.log(this.inputValue + "request")
+          })
+      }
+      else if(this.selected === '3'){
+
         axios.post('/api/boards/boardlist/search',{
-            "searchType" : "userID",
-            "keyword" : this.inputValue
+          "searchType" : "userID",
+          "keyword" : this.inputValue
         })
           .then(response => {
             if( response.data instanceof Array){
@@ -97,22 +114,6 @@ export default {
             console.log(this.inputValue + "request")
           })
       }
-      // else if(this.selected === '3'){
-      //   axios.get('/api/boards/boardlist/all' )
-      //     .then(response => {
-      //       if( response.data instanceof Array){
-      //         this.infos = response.data
-      //       }else(
-      //         this.infos.push(response.data)
-      //       )
-      //
-      //       console.log(this.infos)
-      //     })
-      //     .catch(e => {
-      //       console.log('error:', e)
-      //       console.log(this.inputValue + "request")
-      //     })
-      // }
 
     },
     //수정
