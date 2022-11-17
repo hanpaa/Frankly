@@ -106,9 +106,8 @@ public class BoardController {
     }
 
     //게시판 검색
-    @GetMapping("/boardlist/{region}/search")
-    public ResponseEntity<List<BoardDTO>> searchBoard(@PathVariable("region") String region,
-                                                      @RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType,
+    @GetMapping("/boardlist/search")
+    public ResponseEntity<List<BoardDTO>> searchBoard(@RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType,
                                                       @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) throws Exception{
 
         PageVO pageVO = new PageVO();
@@ -119,7 +118,7 @@ public class BoardController {
         pageVO.setSearchType(searchType);
         pageVO.setKeyword(keyword);
 
-        return new ResponseEntity<>(boardService.searchBoard(region, searchType, keyword), HttpStatus.OK);
+        return new ResponseEntity<>(boardService.searchBoard(searchType, keyword), HttpStatus.OK);
     }
 
     //내가 쓴 글

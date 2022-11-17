@@ -70,9 +70,9 @@ public class BoardService implements BoardServiceInterface {
     }
 
     @Override
-    public List<BoardDTO> searchBoard(String region, String searchType, String keyword) throws Exception {
+    public List<BoardDTO> searchBoard(String searchType, String keyword) throws Exception {
         log.info("getSearchList");
-        return boardMapper.searchBoard(region, searchType, keyword);
+        return boardMapper.searchBoard( searchType, keyword);
     }
 //    @Override
 //    public List<BoardDTO> pageNumberBoardList(Long startPageNumber) throws Exception {
