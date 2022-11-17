@@ -60,7 +60,7 @@
 
     <!--좋아요-->
     <div class="post-like">
-      <button @click="(likedFlag = !likedFlag), changeLike(DetailData.boardID)">
+      <button @click="changeLike(DetailData.boardID)">
         <img src="@/assets/icon/Like.svg" v-if="likedFlag === false" />
         <img src="@/assets/icon/Like_active.svg" v-if="likedFlag === true" />
       </button>
@@ -300,14 +300,16 @@ export default {
           .then((response) => {
             if (response.status === 200) {
               console.log("좋아요 성공");
+              this.likedFlag = !(this.likedFlag)
+              this.DetailData.marked += 1;
+              this.cntMarked = this.DetailData.marked;
             } else {
               console.log("좋아요 실패");
             }
           });
 
         // 해당 게시글의 좋아요 개수 1 증가시킨 걸로 수정 (put)
-        this.DetailData.marked += 1;
-        this.cntMarked = this.DetailData.marked;
+
 
         axios
           .put(`/api/boards/update/${boardID}`, {
@@ -331,14 +333,16 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             console.log("좋아요 취소 성공");
+            this.likedFlag = !(this.likedFlag)
+            // 해당 게시글의 좋아요 개수 1 감소시킨 걸로 수정 (put)
+            this.DetailData.marked -= 1;
+            this.cntMarked = this.DetailData.marked;
           } else {
             console.log("좋아요 취소 실패");
           }
         });
 
-        // 해당 게시글의 좋아요 개수 1 감소시킨 걸로 수정 (put)
-        this.DetailData.marked -= 1;
-        this.cntMarked = this.DetailData.marked;
+
 
         axios
           .put(`/api/boards/update/${boardID}`, {

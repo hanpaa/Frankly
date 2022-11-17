@@ -139,7 +139,7 @@ export default {
         this.editButtonshow = true
         console.log(boardInfo)
 
-        axios.put('/api/boards/'+ boardInfo["boardID"], boardInfo, {
+        axios.put('/api/boards/update/'+ boardInfo["boardID"], boardInfo, {
           headers: { "Content-Type": `application/json`}
         })
           .then(response => {
@@ -171,7 +171,7 @@ export default {
       if (!confirm("정말 삭제 하시겠습니까?")) {
         alert("취소(아니오)를 누르셨습니다.");
       } else {
-        axios.delete('/api/boards/'+ boardInfo["boardID"] )
+        axios.delete('/api/boards/delete/'+ boardInfo["boardID"] )
           .then(response => {
             if(response.status == 200){
               for(let i = 0; i < this.propInfos.length; i++) {
