@@ -31,7 +31,7 @@
         <p class="sign-up-form__input-info">비밀번호</p>
         <input
           class="sign-up-form__text-input"
-          type="email"
+          type="password"
           placeholder="대소문자, 숫자, 특수문자 포함 8~16자리"
           maxlength="16"
           v-model="userPassword"
@@ -51,7 +51,7 @@
         <a href="#">비밀번호 찾기</a>
       </div>
 
-      <button class="sign-up-form__button" @click.prevent="doLogin">
+      <button class="sign-up-form__button" @click.prevent="confirm()">
         로그인
       </button>
     </form>
@@ -59,61 +59,47 @@
 </template>
 
 <script>
-import axios from "axios";
+import { login, findById } from "@/js/user.js";
+import { validateEmail, validatePassword } from "@/commons/validation.js"
 
 export default {
   name: "Login",
   data() {
     return {
-      userEmail: null,
-      userPassword: null,
+      userEmail: "",
+      userPassword: "",
     };
-  },/*
-  computed: {
-    isUserEmailValid() {
-      return validateEmail(this.user.userEmail);
-    },
-  },*/
+  },
   methods: {
-    doLogin() {
-      const userData = {
+    async confirm() {
+      const user = {
         email: this.userEmail,
         password: this.userPassword,
       };
+      login(user, (response) => {
+        console.log("userConfirm", response);
+        if (response.status === 200) {
+          let token = response.data.token;
+          let userID = response.data.userID;
+          this.$store.commit("userStore/SET_IS_LOGIN", true);
+          this.$store.commit("userStore/SET_IS_LOGIN_ERROR", false);
+          this.$store.commit("userStore/SET_USER_ID", userID);
 
-      try {
-      axios.post("/api/auth/signin", JSON.stringify(userData), {
-        headers: {
-          "Content-Type": `application/json`,
-        },
-      })
-      .then((res) => {
-        if(res.status === 200) {
-          this.$store.commit("login", res.data);
-          this.$router.push("/home")
+          sessionStorage.setItem("token", token);
+          sessionStorage.setItem("userID", userID);
+
+          this.$store.dispatch("userStore/getUserInfo", userID);
+          this.$router.push({ name: "Home"});
+        } else {
+          alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+          this.$store.commit("userStore/SET_IS_LOGIN", false);
+          this.$store.commit("userStore/SET_IS_LOGIN_ERROR", true);
         }
-
-      })
-      } catch (error) {
-        console.log(error)
-      }
-      /*try {
-        axios.post('/api/auth/signin', this.credentials, {
-          headers: {
-            "Content-Type": `application/json`,
-          }
-        })
-        .then((response) => {
-          if(response.status === 200) {
-            // 로컬스토리지에 토큰 저장
-          localStorage.setItem("jwt", response.data.token);
-            //로그인 성공시 처리
-            this.$router.push({name: 'home'})
-          }
-        })
-      } catch (error) {
-        console.log(error);
-      }*/
+      },
+      (error) => {
+        console.error(error);
+        alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+      });
     },
   },
 };

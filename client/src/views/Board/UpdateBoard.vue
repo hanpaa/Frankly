@@ -58,6 +58,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "UpdateBoard",
@@ -88,6 +89,9 @@ export default {
       image: "",
     };
   },
+  computed: {
+    ...mapState({ userStore: "userStore" }),
+  },
   beforeCreate() {
     const boardID = this.$route.params.boardID;
     if (boardID !== undefined) {
@@ -107,10 +111,6 @@ export default {
     selected() {
       console.log(this.regionName);
     },
-    /*onInputImage() {
-      console.log(this.$refs);
-      this.image = this.$refs.image.files[0];
-    },*/
     onClickUpdate() {
       const boardID = this.$route.params.boardID;
       axios
@@ -118,6 +118,7 @@ export default {
           title: this.title,
           content: this.content,
           region: this.regionName,
+          userID: this.userStore.userID
         })
         .then((response) => {
           if (response.status === 200) {

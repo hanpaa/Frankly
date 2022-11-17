@@ -1,9 +1,7 @@
 <template>
-  <AdminNav />
-
   <div class="hello">
     <b-card
-      header="게시판 관리"
+      header="회원 관리"
       style="max-width: 80rem; margin: auto; margin-top: 10vh"
       class="mb-2"
       border-variant="info"
@@ -38,13 +36,13 @@
 <script>
 import AdminNav from "@/components/AdminNav.vue";
 import axios from "axios";
-// import EditUserDetail from "@/views/Admin/EditUserDetail";
+import EditUserDetail from "@/views/Admin/EditUserDetail";
 
 export default {
   name: 'EditData',
   components: {
     AdminNav,
-    // EditUserDetail
+    EditUserDetail
   },
   data() {
 
@@ -54,8 +52,8 @@ export default {
       selected: null,
       options: [
         { value: '1', text: '회원 ID' },
-        { value: '2', text: '회원 email' },
-        // { value: '3', text: '표결정보' },
+        { value: '2', text: '회원 이름' },
+        // { value: '3', text: '표결정보' },름
         // { value: '4', text: '본희의정보' },
         // { value: '5', text: '출석정보' }
       ]
@@ -64,19 +62,35 @@ export default {
   methods: {
     getInfo: function (){
       this.infos = []
-      axios.get('/api/users/'+ this.inputValue )
-        .then(response => {
-          if( response.data instanceof Array){
-            this.infos = response.data
-          }else(
-            this.infos.push(response.data)
-          )
-          console.log(this.infos)
-        })
-        .catch(e => {
-          console.log('error:', e)
-          console.log(this.inputValue + "request")
-        })
+      if(this.selected === "1") {
+        axios.get('/api/users/' + this.inputValue)
+          .then(response => {
+            if (response.data instanceof Array) {
+              this.infos = response.data
+            } else (
+              this.infos.push(response.data)
+            )
+            console.log(this.infos)
+          })
+          .catch(e => {
+            console.log('error:', e)
+            console.log(this.inputValue + "request")
+          })
+      }else{
+        axios.get('/api/users/' + this.inputValue + '/name')
+          .then(response => {
+            if (response.data instanceof Array) {
+              this.infos = response.data
+            } else (
+              this.infos.push(response.data)
+            )
+            console.log(this.infos)
+          })
+          .catch(e => {
+            console.log('error:', e)
+            console.log(this.inputValue + "request")
+          })
+      }
     },
     //수정
     doChange: function(userinfo) {

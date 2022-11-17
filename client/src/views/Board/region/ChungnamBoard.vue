@@ -16,7 +16,7 @@
         @click="goToBoardDetail(board.boardID)"
       >
         <div class="post-list__title">
-          <img src="@/assets/icon/Image.svg" alt="이미지 있음" />
+          <!--<img src="@/assets/icon/Image.svg" alt="이미지 있음" />--->
           <h3>{{ board.title }}<span>[{{board.replyCount}}]</span></h3>
         </div>
         <p>{{ board.content }}</p>
@@ -58,7 +58,6 @@ export default {
       axios
         .get(`/api/boards/boardlist/충청남도`)
         .then((response) => {
-          console.log("boards", response.data);
           this.boards = response.data;
         })
         .catch((error) => {

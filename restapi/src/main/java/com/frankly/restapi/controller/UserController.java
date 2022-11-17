@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @CrossOrigin(origins = "http://localhost:8080")
 @Slf4j
@@ -30,6 +32,15 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/{name}/name")
+    public ResponseEntity<List<UserDTO>> getUserByName(@PathVariable("name") String name)
+            throws Exception{
+        log.info("read" + name);
+
+
+        return new ResponseEntity<>(userService.getUserByName(name), HttpStatus.OK);
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> registerUser(@Validated @RequestBody UserDTO userDTO)
             throws Exception{
@@ -40,7 +51,7 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
 
     }
-    @PutMapping("/{userID}")
+    @PutMapping("/{userID}/update")
     public ResponseEntity<UserDTO> updateUser(@Validated @RequestBody UserDTO userDTO)
             throws Exception{
         log.info("update User " + userDTO.getName());
@@ -51,7 +62,7 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/{userID}")
+    @DeleteMapping("/{userID}/delete")
     public ResponseEntity<?> deleteUser(@PathVariable("userID")int userID)
             throws Exception{
         log.info("delete user : " + userID);

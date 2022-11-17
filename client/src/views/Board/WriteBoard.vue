@@ -58,6 +58,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "WriteBoard",
@@ -88,32 +89,25 @@ export default {
       image: "",
     };
   },
+  computed: {
+    ...mapState({ userStore: "userStore" }),
+  },
   methods: {
     selected() {
       console.log(this.regionName);
     },
-    /*onInputImage() {
-      console.log(this.$refs);
-      this.image = this.$refs.image.files[0];
-    },*/
     onClickSubmit() {
       //입력된 내용이 없을 시
       if (this.title.length <= 0 || this.content.length <= 0) {
         window.alert("모든 내용을 입력해주세요!");
       }
-      /*
-      const formdata = new FormData();
-      this.image = this.$refs.image.files[0];
-      formdata.append("region", this.region);
-      formdata.append("region", this.regionName)
-      formdata.append("title", this.title);
-      formdata.append("content", this.content);
-      formdata.append("image", this.image);*/
+
       axios
         .post("/api/boards/create", {
           title: this.title,
           region: this.regionName,
           content: this.content,
+          userID: this.userStore.userID
         })
         .then((response) => {
           // console.log(response);
