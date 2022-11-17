@@ -9,10 +9,7 @@
         <div class="header-right-icon">
           <button
             class="icon-button-56"
-            @click="
-              (bookmark = !bookmark),
-                changeBookmark(PoliticianDetailData.politicianID)
-            "
+            @click="changeBookmark(PoliticianDetailData.politicianID)"
           >
             <img
               src="@/assets/icon/Bookmark.svg"
@@ -216,15 +213,16 @@ export default {
       });
     },
     async changeBookmark(politicianID) {
-      if (this.bookmark) {
+      if (!this.bookmark) {
         axios
           .post(`/api/politician/create/bookmark`, {
             userID: this.userStore.userID,
-            politicianID: politicianID,
+            politicianID: politicianID
           })
           .then((response) => {
             if (response.status === 200) {
               console.log("북마크 성공");
+              this.bookmark = !this.bookmark
             } else {
               console.log("북마크 실패");
             }
@@ -238,6 +236,7 @@ export default {
           .then((response) => {
             if (response.status === 200) {
               console.log("북마크 취소 성공");
+              this.bookmark = !this.bookmark
             } else {
               console.log("북마크 취소 실패");
             }
