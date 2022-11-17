@@ -11,7 +11,7 @@
       <h3>회원가입</h3>
     </div>
 
-    <form class="sign-up-form">
+    <b-form class="sign-up-form">
       <!--        이름-->
       <label>
         <p class="sign-up-form__input-info">이름</p>
@@ -31,8 +31,9 @@
           type="email"
           placeholder="example@gmail.com"
           v-model="user.userEmail"
+          @blur="validateEmail"
         />
-        <p class="sign-up-form__error-message">
+        <p v-if="emailValidFlag === false" class="sign-up-form__error__message">
           올바른 이메일 형식을 입력해주세요.
         </p>
       </label>
@@ -46,9 +47,30 @@
           v-model="user.userPassword"
           placeholder="대소문자, 숫자, 특수문자 포함 8~16자리"
           maxlength="16"
+          @blur="validatePassword"
         />
-        <p class="sign-up-form__error-message">
+        <p
+          v-if="passwordValidFlag === false"
+          class="sign-up-form__error__message"
+        >
           대소문자, 숫자, 특수문자 포함 8~16자리
+        </p>
+      </label>
+
+      <label>
+        <p class="sign-up-form__input-info">비밀번호 확인</p>
+        <input
+          class="sign-up-form__text-input"
+          type="password"
+          v-model="passwordCheck"
+          placeholder="비밀번호 확인"
+          @blur="passwordCheckValid"
+        />
+        <p
+          v-if="passwordCheckFlag === false"
+          class="sign-up-form__error__message"
+        >
+          비밀번호가 같지 않습니다.
         </p>
       </label>
 
@@ -65,21 +87,6 @@
           올바른 전화번호 형식을 입력해주세요.
         </p>
       </label>
-      <!--input 양식 에러발생 시 label 태그에 sign-up-form--error 클래스
-      <label class="sign-up-form--error">
-        <input
-          class="sign-up-form__text-input"
-          type="password"
-          v-model="userPasswordCheck"
-          placeholder="비밀번호 확인"
-        />
-        <p class="sign-up-form__error-message" v-show="checkPassword === false">
-          비밀번호가 같지 않습니다.
-        </p>
-        <p class="sign-up-form__error-message" v-show="checkPassword === true">
-          비밀번호가 같습니다.
-        </p>
-      </label>-->
 
       <!--        지역-->
       <label>
@@ -130,7 +137,7 @@
       <button class="sign-up-form__button" @click.prevent="doSignup">
         가입완료
       </button>
-    </form>
+    </b-form>
   </div>
 </template>
 
@@ -148,8 +155,6 @@ export default {
         userContact: null,
         userAuth: "ROLE_USER",
       },
-      userPasswordCheck: null,
-      checkPassword: false,
       districts: [
         { value: "0", districtName: "서울특별시" },
         { value: "1", districtName: "부산광역시" },
@@ -169,9 +174,40 @@ export default {
         { value: "15", districtName: "경상남도" },
         { value: "16", districtName: "제주특별자치도" },
       ],
+      emailValidFlag: true,
+      passwordValidFlag: true,
+      passwordCheck: "",
+      passwordCheckFlag: true,
     };
   },
   methods: {
+    validateEmail() {
+      const re = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/
+      if(!re.test(this.user.userEmail)) {
+        this.emailValidFlag = false;
+      } else {
+        this.emailValidFlag = true;
+      }
+      //return re.test(this.user.userEmail);
+    },
+    validatePassword() {
+      if (
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(
+          this.user.userPassword
+        )
+      ) {
+        this.passwordValidFlag = true;
+      } else {
+        this.passwordValidFlag = false;
+      }
+    },
+    passwordCheckValid() {
+      if (this.user.userPassword === this.passwordCheck) {
+        this.passwordCheckFlag = true;
+      } else {
+        this.passwordCheckFlag = false;
+      }
+    },
     doSignup() {
       axios
         .post("/api/users/signup", {
@@ -180,7 +216,7 @@ export default {
           password: this.user.userPassword,
           district: this.districtName,
           userAuth: this.user.userAuth,
-          contact: this.user.userContact
+          contact: this.user.userContact,
         })
         .then((response) => {
           if (response.status === 200) {
@@ -256,8 +292,11 @@ export default {
   font-size: 14px;
   color: #a9a9a9;
 }
-.sign-up-form__error-message {
-  display: none;
+.sign-up-form__error__message {
+  margin-top: 4px;
+  display: block;
+  font-size: 14px;
+  color: #da8282;
 }
 .sign-up-form--error > .sign-up-form__error-message {
   margin-top: 4px;
