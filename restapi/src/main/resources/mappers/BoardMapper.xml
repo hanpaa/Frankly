@@ -68,7 +68,7 @@
                                      ON B.boardID = R.boardID
         WHERE B.userID = #{userID}
         GROUP BY B.boardID
-
+        ORDER BY B.boardID DESC
     </select>
 
     <!-- 내가 쓴 댓글의 글 -->
@@ -78,6 +78,7 @@
                                        ON B.boardID = R.boardID
         WHERE R.userID = #{userID}
         GROUP BY R.replyID
+        ORDER BY B.boardID DESC
     </select>
 
     <!-- 게시물 총 갯수 -->
