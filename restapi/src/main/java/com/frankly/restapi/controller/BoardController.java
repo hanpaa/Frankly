@@ -105,7 +105,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //게시물 검색
+    //게시판 검색
     @GetMapping("/boardlist/{region}/search")
     public ResponseEntity<List<BoardDTO>> searchBoard(@PathVariable("region") String region,
                                                       @RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType,
