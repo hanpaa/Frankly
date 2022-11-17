@@ -303,26 +303,27 @@ export default {
               this.likedFlag = !(this.likedFlag)
               this.DetailData.marked += 1;
               this.cntMarked = this.DetailData.marked;
+              // 해당 게시글의 좋아요 개수 1 증가시킨 걸로 수정 (put)
+
+
+              axios
+                .put(`/api/boards/update/${boardID}`, {
+                  title: this.DetailData.title,
+                  content: this.DetailData.content,
+                  marked: this.cntMarked,
+                })
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             } else {
               console.log("좋아요 실패");
             }
           });
 
-        // 해당 게시글의 좋아요 개수 1 증가시킨 걸로 수정 (put)
 
-
-        axios
-          .put(`/api/boards/update/${boardID}`, {
-            title: this.DetailData.title,
-            content: this.DetailData.content,
-            marked: this.cntMarked,
-          })
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
       }
       // 좋아요가 눌러진 상태에서 좋아요를 취소할 때
       else {
@@ -337,6 +338,18 @@ export default {
             // 해당 게시글의 좋아요 개수 1 감소시킨 걸로 수정 (put)
             this.DetailData.marked -= 1;
             this.cntMarked = this.DetailData.marked;
+            axios
+              .put(`/api/boards/update/${boardID}`, {
+                title: this.DetailData.title,
+                content: this.DetailData.content,
+                marked: this.cntMarked,
+              })
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           } else {
             console.log("좋아요 취소 실패");
           }
@@ -344,18 +357,7 @@ export default {
 
 
 
-        axios
-          .put(`/api/boards/update/${boardID}`, {
-            title: this.DetailData.title,
-            content: this.DetailData.content,
-            marked: this.cntMarked,
-          })
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+
       }
     },
   },
