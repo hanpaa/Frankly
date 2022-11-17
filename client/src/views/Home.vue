@@ -1,42 +1,42 @@
 <template>
   <div class="wrap">
     <Header />
-    <HomeSlider/>
+    <!--<HomeSlider/>-->
     <!--슬라이더-->
     <div id="slider">
-<!--      <input type="radio" name="slider" id="slide1" checked />-->
-<!--      <input type="radio" name="slider" id="slide2" />-->
-<!--      <input type="radio" name="slider" id="slide3" />-->
+      <input type="radio" name="slider" id="slide1" checked />
+      <input type="radio" name="slider" id="slide2" />
+      <input type="radio" name="slider" id="slide3" />
 
-<!--      <div id="slides">-->
-<!--        <div id="overflow">-->
-<!--          <div class="inner">-->
-<!--            <div class="slide slide_1">-->
-<!--              <div class="slide-content"></div>-->
-<!--            </div>-->
+      <div id="slides">
+        <div id="overflow">
+          <div class="inner">
+            <div class="slide slide_1">
+              <div class="slide-content"></div>
+            </div>
 
-<!--            <div class="slide slide_2">-->
-<!--              <div class="slide-content"></div>-->
-<!--            </div>-->
+            <div class="slide slide_2">
+              <div class="slide-content"></div>
+            </div>
 
-<!--            <div class="slide slide_3">-->
-<!--              <div class="slide-content"></div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+            <div class="slide slide_3">
+              <div class="slide-content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!--      <div id="controls">-->
-<!--        <label for="slide1"></label>-->
-<!--        <label for="slide2"></label>-->
-<!--        <label for="slide3"></label>-->
-<!--      </div>-->
+      <div id="controls">
+        <label for="slide1"></label>
+        <label for="slide2"></label>
+        <label for="slide3"></label>
+      </div>
 
-<!--      <div id="bullets">-->
-<!--        <label for="label1"></label>-->
-<!--        <label for="label2"></label>-->
-<!--        <label for="label3"></label>-->
-<!--      </div>-->
+      <div id="bullets">
+        <label for="label1"></label>
+        <label for="label2"></label>
+        <label for="label3"></label>
+      </div>
     </div>
 
     <!--국회의원 검색-->
@@ -54,8 +54,7 @@
           class="trend-politician"
           v-for="politician in topPoliticians"
           v-bind:key="politician.politicianID"
-          @click="
-            goToPoliticianDetail(politician.politicianID)"
+          @click="goToPoliticianDetail(politician.politicianID)"
         >
           <!-- 정치인 리스트 출력 이미지, 이름-->
           <div
@@ -70,7 +69,9 @@
               "
             />
           </div>
-          <div class="trend-politician-name">{{ politician.politicianName }}</div>
+          <div class="trend-politician-name">
+            {{ politician.politicianName }}
+          </div>
         </li>
       </ul>
     </div>
@@ -93,14 +94,14 @@ export default {
     Header: Header,
     ImageSlider: ImageSlider,
     SearchBar: SearchBar,
-    HomeSlider:HomeSlider
+    HomeSlider: HomeSlider,
   },
   mounted() {
     this.getTrendPoliticianList();
   },
   data() {
     return {
-      topPoliticians: {}
+      topPoliticians: {},
     };
   },
   methods: {
@@ -114,21 +115,17 @@ export default {
           console.log(error);
         });
     },
-    getPoliticianColor(politician){
-      if(politician.partyName === "국민의힘"){
+    getPoliticianColor(politician) {
+      if (politician.partyName === "국민의힘") {
         return "3px solid #aa0000";
-      }
-      else if(politician.partyName === "더불어민주당"){
-        return "3px solid #0d6efd"
-      }
-      else if(politician.partyName === "시대전환"){
-        return "3px solid #8B00FF"
-      }
-      else if(politician.partyName === "정의당"){
-        return "3px solid #FFD400"
-      }
-      else if(politician.partyName === "기본소득당"){
-        return "3px solid #000000"
+      } else if (politician.partyName === "더불어민주당") {
+        return "3px solid #0d6efd";
+      } else if (politician.partyName === "시대전환") {
+        return "3px solid #8B00FF";
+      } else if (politician.partyName === "정의당") {
+        return "3px solid #FFD400";
+      } else if (politician.partyName === "기본소득당") {
+        return "3px solid #000000";
       }
     },
     goToPoliticianDetail(politicianID) {
@@ -148,7 +145,7 @@ export default {
 /* 슬라이드 */
 #slider {
   margin: 15px auto 40px auto;
-  width: 540px;
+  width: 500px;
   max-width: 100%;
   text-align: center;
   padding: 8px 24px;
@@ -197,11 +194,15 @@ export default {
   color: #fff;
 }
 #slides .slide_1 {
-  background-image: url("@/assets/slide1.png");
+  background-image: url("@/assets/slide2.png");
   background-size: cover;
 }
 #slides .slide_2 {
-  background-image: url("@/assets/slide2.png");
+  background-image: url("@/assets/slide4.png");
+  background-size: cover;
+}
+#slides .slide_3 {
+  background-image: url("@/assets/slide7.PNG");
   background-size: cover;
 }
 .slide-content {
@@ -227,7 +228,8 @@ export default {
 #slide1:checked ~ #controls label:nth-child(2),
 #slide2:checked ~ #controls label:nth-child(3),
 #slide3:checked ~ #controls label:nth-child(1) {
-  background: url(https://image.flaticon.com/icons/svg/130/130884.svg) no-repeat;
+  background-image: url("@/assets/icon/chevron_right.svg");
+  background-size: contain;
   float: right;
   margin: 0 -50px 0 0;
   display: block;
@@ -235,7 +237,8 @@ export default {
 #slide1:checked ~ #controls label:nth-child(3),
 #slide2:checked ~ #controls label:nth-child(1),
 #slide3:checked ~ #controls label:nth-child(2) {
-  background: url(https://image.flaticon.com/icons/svg/130/130882.svg) no-repeat;
+  background-image: url("@/assets/icon/chevron_left.svg");
+  background-size: contain;
   float: left;
   margin: 0 0 0 -50px;
   display: block;
@@ -277,7 +280,9 @@ export default {
     brightness(102%) contrast(106%);
 }
 .trend-top4-politician-title h2 {
+  margin: 0 auto;
   position: absolute;
+  text-align: center;
   left: 55px;
   vertical-align: middle;
   font-family: "Noto Sans KR";
@@ -289,7 +294,7 @@ export default {
 }
 
 /*인기검색 국회의원 리스트*/
-.trend-politician-list-wrap{
+.trend-politician-list-wrap {
   width: 100%;
   display: flex;
   margin: 85px auto 0 auto;
