@@ -54,7 +54,7 @@
     </div>
 
     <!--내용-->
-    <article class="post-content">
+    <article class="post-content" style="white-space:pre-wrap">
       <p>{{ DetailData.content }}</p>
     </article>
 

@@ -40,6 +40,7 @@ export default {
 /* 게시글 목록 */
 .like-post-list {
     padding: 14px 0;
+    margin: 0;
 }
 /* 게시글 박스 */
 .like-post-list__container {
