@@ -145,7 +145,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     //좋아요 취소
-    @DeleteMapping("/delete/like")
+    @PostMapping("/delete/like")
     public ResponseEntity<LikeDTO> deleteLike(@Validated @RequestBody LikeDTO likeDTO) throws Exception {
 
         likeService.deleteLike(likeDTO);

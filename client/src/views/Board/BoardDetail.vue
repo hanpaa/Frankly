@@ -291,7 +291,7 @@ export default {
     },
     async changeLike(boardID) {
       //좋아요가 안눌러진 상태에서 좋아요를 누를 때
-      if (this.likedFlag) {
+      if (!this.likedFlag) {
         axios
           .post(`/api/boards/create/like`, {
             userID: this.userStore.userID,
@@ -326,7 +326,7 @@ export default {
       }
       // 좋아요가 눌러진 상태에서 좋아요를 취소할 때
       else {
-        axios.delete(`/api/boards/delete/like`, {
+        axios.post(`/api/boards/delete/like`, {
           userID: this.userStore.userID,
           boardID: boardID,
         })
