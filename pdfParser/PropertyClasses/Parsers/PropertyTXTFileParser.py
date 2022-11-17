@@ -19,6 +19,7 @@ from PropertyClasses.Parsers.PropertyMainParser import PropertyMainParser
 
 class PropertyTXTFileParser:
     def propertyTXTParse(self, filePath):
+        print("추출 데이터 json으로 변환")
         # filePath = 'E:\work\Frankly\pdfParser\PropertyClasses\Parsers\moneyTXT'
         # filePath = 'moneyTXT'
         # filePath = 'D:\code\Frankly\pdfParser\PropertyClasses\moneyTXT'

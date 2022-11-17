@@ -77,6 +77,7 @@ class ConferenceSchedule:
             sql = "ALTER TABLE ConferenceSchedule AUTO_INCREMENT = %s"
             cursor.execute(sql,(selectcount[0]))
             print("auto increment set : " + str(selectcount[0]))
+            raise Exception("schedule 중복")
             return False
         except Exception as e:
             traceback.print_exc()

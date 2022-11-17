@@ -64,6 +64,7 @@ class ParserMain:
             print("politician insert error")
 
     def parseAttendancePDF(self, pdfDir):
+        print("출석 pdf에서 데이터 추출")
         # pdfDir = 'E:\work\Frankly\pdfParser\InformationClass\Json'
         # pdfDir = 'D:\code\Frankly\pdfParser\InformationClass/attendance'
         fileList = os.listdir(pdfDir)
@@ -109,6 +110,7 @@ class ParserMain:
                             print(e)
 
     def parseAttendance(self, pdfDir):
+        print("출석정보 db에 저장 시작.")
         con, cur = self.dbConnect()
         # pdfDir = 'E:\work\Frankly\pdfParser\InformationClass\Json'
         # pdfDir = 'D:\code\Frankly\pdfParser\InformationClass/attendance'
@@ -198,8 +200,6 @@ class ParserMain:
                             continue
                         # 국회의원 ID 검색
                         ppName = token[0].split("(")
-                        if(ppName == "강기윤"):
-                            print("stub")
                         if(len(ppName) == 2 and ppName[1] == "비)"):
                             result = pp.selectNameID(cursor= cur,\
                                                      input = ppName[0],\
@@ -328,6 +328,7 @@ class ParserMain:
         jsonObject.close()
 
     def getScheduleFromAPI(self):
+        print("API에서 정보를 받아와 DB에 삽입")
         con, cur = self.dbConnect()
         api = openAPI()
         api.setAPIInfo(cur, "conferenceschedule")
@@ -351,7 +352,8 @@ class ParserMain:
             con.commit()
             con.close()
         except Exception as e:
-            exit(0)
+            print("의회 일정 정보가 중복되었습니다.")
+            return
 
 
 

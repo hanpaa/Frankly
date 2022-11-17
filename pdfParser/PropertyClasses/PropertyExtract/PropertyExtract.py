@@ -29,7 +29,7 @@ class PropertyExtract:
 
 
     def jsonParse(self, jsonDir):
-
+        print("json파일을 통해 재산정보 DB에 삽입")
         # jsonDir = 'E:\work\Frankly\pdfParser\PropertyClasses\Parsers\moneyTXT'
         # jsonDir = 'D:\code\Frankly\pdfParser\PropertyClasses\moneyTXT'
         fileList = os.listdir(jsonDir)
@@ -97,20 +97,22 @@ class PropertyExtract:
                     print(politician["국회의원 이름"] + section + kind + relation +"삽입오류")
 
                 property.politicianID = politicianID
+                try:
+                    if(change["상세종류"] in sectionList):
+                        for detail in change["재산명세"]:
+                            property.propertyDetail = detail["사명"]
+                            property.presentPrice = detail["현재가액"]
+                            property.insert(cur)
+                            # commit 위치 차이 고려해보기.
+                            con.commit()
 
-                if(change["상세종류"] in sectionList):
-                    for detail in change["재산명세"]:
-                        property.propertyDetail = detail["사명"]
-                        property.presentPrice = detail["현재가액"]
+                    else:
+                        property.propertyDetail = change["재산명세"]
+                        property.presentPrice = change["현재가액"]
                         property.insert(cur)
-                        # commit 위치 차이 고려해보기.
                         con.commit()
-
-                else:
-                    property.propertyDetail = change["재산명세"]
-                    property.presentPrice = change["현재가액"]
-                    property.insert(cur)
-                    con.commit()
+                except:
+                    continue
         con.close()
 
     def parsePropertyChange(self, parsedJson):
@@ -182,15 +184,17 @@ class PropertyExtract:
                             print(politician["국회의원 이름"] + section + kind + relation +"Property ID 검색오류")
                             # 없으면 삽입시도 하는게 코드 효율 높을 수도 있지만, 어차피 1년에 한번에 실행인데 굳이
                             continue
-                        propertyChange.propertyID = propertyID
-                        # 그냥 감소액 등 넣는거 고려
-                        propertyChange.price = detail["현재가액"]
-                        propertyChange.reason = change["변동사유"]
-                        propertyChange.period = change["기간"]
-                        propertyChange.insert(cur)
-                        pp.updatePrice(cur, detail["현재가액"], propertyID)
-                        con.commit()
-
+                        try:
+                            propertyChange.propertyID = propertyID
+                            # 그냥 감소액 등 넣는거 고려
+                            propertyChange.price = detail["현재가액"]
+                            propertyChange.reason = change["변동사유"]
+                            propertyChange.period = change["기간"]
+                            propertyChange.insert(cur)
+                            pp.updatePrice(cur, detail["현재가액"], propertyID)
+                            con.commit()
+                        except:
+                            return
                 else:
                     result = pp.selectOne(cursor= cur, \
                                           detail= change["재산명세"], \
@@ -204,15 +208,18 @@ class PropertyExtract:
                         print(politician["국회의원 이름"] + section + kind + relation +"Property ID 검색오류")
                         # 없으면 삽입시도 하는게 코드 효율 높을 수도 있지만, 어차피 1년에 한번에 실행인데 굳이
                         continue
-                    propertyChange.propertyID = propertyID
-                    # 그냥 감소액 등 넣는거 고려
-                    propertyChange.price = change["현재가액"]
-                    propertyChange.reason = change["변동사유"]
-                    propertyChange.period = change["기간"]
-                    propertyChange.insert(cur)
-                    pp.updatePrice(cur, change["현재가액"], propertyID)
-                    con.commit()
 
+                    try:
+                        propertyChange.propertyID = propertyID
+                        # 그냥 감소액 등 넣는거 고려
+                        propertyChange.price = change["현재가액"]
+                        propertyChange.reason = change["변동사유"]
+                        propertyChange.period = change["기간"]
+                        propertyChange.insert(cur)
+                        pp.updatePrice(cur, change["현재가액"], propertyID)
+                        con.commit()
+                    except:
+                        return
         con.close()
 
 

@@ -65,16 +65,19 @@ class Property:
         except pymysql.err.IntegrityError as e:
             code, msg = e.args
             if(code == 1062):
-                print("property 중복" + self.propertyDetail)
+                # print("property 중복 " + self.propertyDetail)
                 sql = "SELECT count(assetID) from Property"
                 cursor.execute(sql)
                 selectcount = cursor.fetchone()
                 sql = "ALTER TABLE Property AUTO_INCREMENT = %s"
                 cursor.execute(sql,(selectcount[0]))
-                print("auto increment set : " + str(selectcount[0]))
+                # print("auto increment set : " + str(selectcount[0]))
             else:
                 traceback.print_exc()
             return False
+        except Exception as e:
+            print(self.politicianID+" 번 국회의원 데이터 입력 오류")
+            raise ("Exception")
     def updatePrice(self, cursor,price, id):
         try:
             sql = "UPDATE Property SET presentPrice = %s WHERE assetID = %s"

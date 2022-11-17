@@ -221,6 +221,7 @@ class News:
     # 네이버 검색 Open API 예제 - 블로그 검색
     # targetDate foramt yyyy-mm-dd
     def getNewsFromAPI(self, targetDate):
+        print("네이버 뉴스 API에서 뉴스정보 가져오기")
         KST = datetime.timezone(datetime.timedelta(hours=9))
         targetDate = datetime.datetime.strptime(targetDate, "%Y-%m-%d").replace(tzinfo=KST)
         total = -1
@@ -387,6 +388,7 @@ class News:
             return connection, cursor
 
     def newsCrawling(self):
+        print("뉴스 본문 크롤링")
         con, cur = self.dbConnect()
         politicianList = Politician().selectALL(cur)
         headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}

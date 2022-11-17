@@ -16,6 +16,7 @@ import os
 class PropertyPDFParser:
 
     def propertyPDFParse(self, pdfDir, txtDir):
+        print("재산정보 pdf에서 데이터 추출")
         table_settings = {
             "vertical_strategy" : "lines_strict",
             "horizontal_strategy" : "lines_strict",

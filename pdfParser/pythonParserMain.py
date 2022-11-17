@@ -4,6 +4,7 @@ from NewsClasses.KeywordExtract import KeywordExtract
 from PropertyClasses.Parsers.propertyPDFParser import PropertyPDFParser
 from PropertyClasses.Parsers.PropertyTXTFileParser import PropertyTXTFileParser
 from PropertyClasses.PropertyExtract.PropertyExtract import PropertyExtract
+from PropertyClasses.vote.vote import Vote
 import os
 
 state = True
@@ -15,7 +16,8 @@ while(state):
     print("3 : 정치인 뉴스 기사 및 키워드 수집")
     # print("4 : 정치인 뉴스 키워드 수집")
     print("4 : 정치인 재산 정보 수집")
-    print("5 : 나가기")
+    print("5 : 정치인 표결 정보 수집")
+    print("6 : 나가기")
     print("input : ")
     select = input()
 
@@ -25,6 +27,7 @@ while(state):
         print("데이터가 이미 최신이면 자동종료됨.")
         PoliticianInformationParser = ParserMain()
         PoliticianInformationParser.getScheduleFromAPI()
+        print("의회 일정 정보 완료")
     elif(select == "2"):
         pdfDir = dir + "/InformationClass/attendance"
         PoliticianInformationParser = ParserMain()
@@ -38,6 +41,7 @@ while(state):
         input("\t Press Enter Key to Continue")
         PoliticianInformationParser.parseAttendancePDF(pdfDir)
         PoliticianInformationParser.parseAttendance(pdfDir)
+        print("정치인 출석정보 완료")
     elif(select == "3"):
         news = News()
         print("연 월 일을 입력하면 해당 날짜 이후의 뉴스데이터를 수집합니다. 예) 2020 10 01 순으로 입력")
@@ -54,7 +58,7 @@ while(state):
         KeywordExtract.keywordExtract(date=targetDate)
     # elif(select == "4"):
     #     print("뉴스 키워드 추출 뉴스 데이터 수집과 같은 월로 ")
-
+        print("뉴스데이터 완료")
     elif(select == "4"):
         pdfDir = dir + "/PropertyClasses/moneyPDF"
         txtDir = dir + "/PropertyClasses/moneyTXT"
@@ -65,14 +69,19 @@ while(state):
             print(fileName)
 
         input("\t Press Enter Key to Continue")
-        # PropertyPDFParser = PropertyPDFParser()
-        # PropertyPDFParser.propertyPDFParse(pdfDir, txtDir)
-        # PropertyTXTFileParser = PropertyTXTFileParser()
-        # PropertyTXTFileParser.propertyTXTParse(txtDir)
+        PropertyPDFParser = PropertyPDFParser()
+        PropertyPDFParser.propertyPDFParse(pdfDir, txtDir)
+        PropertyTXTFileParser = PropertyTXTFileParser()
+        PropertyTXTFileParser.propertyTXTParse(txtDir)
         PropertyExtract = PropertyExtract()
         PropertyExtract.jsonParse(txtDir)
-
+        print("재산데이터 완료")
     elif(select == "5"):
+        input("\t Press Enter Key to Continue")
+        vote = Vote()
+        vote.parseVote()
+        print("법의안 및 표결데이터 완료")
+    elif(select == "6"):
         exit(0)
 
     else:

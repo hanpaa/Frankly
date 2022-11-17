@@ -13,7 +13,7 @@ import requests
 
 from InformationClass.Politician import Politician
 from InformationClass.openAPI import openAPI
-from ConferenceBillLaw import ConferenceBillLaw
+from PropertyClasses.vote.ConferenceBillLaw import ConferenceBillLaw
 
 import csv
 import json
@@ -86,6 +86,7 @@ class Vote:
     #
 
     def parseVote(self):
+        print("표결정보 API에서 받아와 DB에 삽입시작.")
         con, cur = self.dbConnect()
         pp = Politician()
         politicianList = pp.selectALL(cur)
@@ -118,7 +119,7 @@ class Vote:
 
         for billLaw in billLawList:
             if billLaw.checked == True:
-                print("이미 완료된 bill law ")
+                print("이미 완료된 법의안입니다. 다음으로 넘어갑니다. ")
                 continue
             voteParams = {'Key': voteAPI.secretKey, 'Type': 'json', \
                       'pIndex': 1, 'pSize' : 1000, 'AGE':21, "BILL_ID" : billLaw.billLawAPIID}
@@ -148,8 +149,8 @@ class Vote:
                     vote.insert(cur)
 
                 except Exception as e:
-                    print("출석정보 중복. 더 이상 삽입이 필요없거나 데이터 확인이 필요합니다.")
-                    break
+                    print("표정보 중복. 더 이상 삽입이 필요없거나 데이터 확인이 필요합니다.")
+                    return
             con.commit()
             print("billlaw vote information insert " + voteJson['BILL_NO'])
         print("vote parse end")
@@ -192,5 +193,3 @@ class Vote:
             dbInfo.close()
             return connection, cursor
 
-vote = Vote()
-vote.parseVote()

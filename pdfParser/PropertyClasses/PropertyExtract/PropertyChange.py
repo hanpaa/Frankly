@@ -62,11 +62,12 @@ class PropertyChange:
         except pymysql.err.IntegrityError as e:
             code, msg = e.args
             if(code == 1062):
-                print("propertyChange 중복")
+                print("propertyChange 중복 이미 입력된 pdf거나 데이터를 확인하세요.")
                 # sql = "ALTER TABLE PropertyList AUTO_INCREMENT = "
                 # cursor.execute(sql)
+                raise
             else:
                 traceback.print_exc()
-            return False
+
         except Exception as e:
             traceback.print_exc()
