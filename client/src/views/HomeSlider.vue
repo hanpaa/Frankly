@@ -2,8 +2,9 @@
   <vueper-slides
     class="no-shadow"
     :visible-slides="1"
+    fixed-width="500px"
     :arrows="false"
-    :gap="13"
+    :gap="8"
     :dragging-distance="15"
     :bullets="false"
     :slideImageInside="true"
@@ -45,9 +46,6 @@ export default {
 </script>
 
 <style>
-.vueper-slides {
-  padding: 8px 24px;
-}
 .vueperslides__track-inner{
   padding-left: 15px;
   width: 100%;
